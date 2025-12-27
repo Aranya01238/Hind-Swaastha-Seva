@@ -1,0 +1,13 @@
+doctor_id,name,specialization,hospital_id,rating,fee,experience,phone,email,available_days,available_hours
+D001,Dr. Rajesh Kumar,Cardiologist,H001,4.8,2000,15,+91-9876543210,rajesh.kumar@apollodelhi.com,"Monday,Tuesday,Wednesday,Thursday,Friday","09:00-17:00"
+D002,Dr. Priya Sharma,Neurologist,H001,4.7,1800,12,+91-9876543211,priya.sharma@apollodelhi.com,"Monday,Wednesday,Friday,Saturday","10:00-16:00"
+D003,Dr. Amit Singh,Orthopedic Surgeon,H002,4.9,1500,20,+91-9876543212,amit.singh@aiims.ac.in,"Tuesday,Thursday,Saturday","08:00-14:00"
+D004,Dr. Sunita Gupta,Gynecologist,H002,4.6,1200,18,+91-9876543213,sunita.gupta@aiims.ac.in,"Monday,Tuesday,Wednesday,Thursday","09:00-15:00"
+D005,Dr. Vikram Mehta,Gastroenterologist,H003,4.8,2200,14,+91-9876543214,vikram.mehta@fortishealthcare.com,"Monday,Wednesday,Friday","11:00-17:00"
+D006,Dr. Kavita Jain,Oncologist,H004,4.9,2500,16,+91-9876543215,kavita.jain@maxhealthcare.in,"Tuesday,Thursday,Saturday","10:00-16:00"
+D007,Dr. Rohit Agarwal,Neurosurgeon,H005,4.7,3000,22,+91-9876543216,rohit.agarwal@medanta.org,"Monday,Thursday,Friday","08:00-14:00"
+D008,Dr. Meera Patel,Pediatrician,H006,4.6,1000,10,+91-9876543217,meera.patel@blkhospital.com,"Monday,Tuesday,Wednesday,Thursday,Friday","09:00-17:00"
+D009,Dr. Suresh Reddy,General Physician,H007,4.5,800,25,+91-9876543218,suresh.reddy@sgrh.com,"Monday,Tuesday,Wednesday,Thursday,Friday,Saturday","08:00-18:00"
+D010,Dr. Anjali Verma,Dermatologist,H008,4.4,1200,8,+91-9876543219,anjali.verma@safdarjung.nic.in,"Tuesday,Wednesday,Thursday,Friday","10:00-16:00"
+D011,Dr. Manoj Kumar,Emergency Medicine,H009,4.7,1500,12,+91-9876543220,manoj.kumar@rmlh.nic.in,"Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday","00:00-23:59"
+D012,Dr. Ritu Singh,Radiologist,H010,4.6,1800,14,+91-9876543221,ritu.singh@indraprasthaapollo.com,"Monday,Wednesday,Friday","09:00-17:00"

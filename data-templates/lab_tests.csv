@@ -1,0 +1,16 @@
+test_id,name,description,price,category,preparation_required,sample_type,report_time
+LT001,Complete Blood Count (CBC),Comprehensive blood analysis including RBC WBC platelets,500,Hematology,false,Blood,4 hours
+LT002,Lipid Profile,Cholesterol and triglyceride levels,800,Biochemistry,true,Blood,6 hours
+LT003,Liver Function Test (LFT),Assessment of liver enzymes and function,700,Biochemistry,true,Blood,4 hours
+LT004,Kidney Function Test (KFT),Creatinine urea and other kidney markers,600,Biochemistry,false,Blood,4 hours
+LT005,Thyroid Profile (T3 T4 TSH),Complete thyroid hormone assessment,1200,Endocrinology,false,Blood,24 hours
+LT006,HbA1c (Glycated Hemoglobin),Long-term blood sugar control indicator,900,Diabetes,false,Blood,4 hours
+LT007,Vitamin D3,25-Hydroxy Vitamin D levels,1500,Vitamins,false,Blood,24 hours
+LT008,Vitamin B12,Cobalamin levels in blood,800,Vitamins,false,Blood,24 hours
+LT009,ECG (Electrocardiogram),Heart rhythm and electrical activity,300,Cardiology,false,None,Immediate
+LT010,Chest X-Ray,Lung and chest cavity imaging,400,Radiology,false,None,2 hours
+LT011,Ultrasound Abdomen,Abdominal organ imaging,1200,Radiology,true,None,1 hour
+LT012,Blood Sugar Fasting,Fasting glucose levels,200,Diabetes,true,Blood,2 hours
+LT013,Blood Sugar Random,Random glucose levels,150,Diabetes,false,Blood,2 hours
+LT014,Urine Routine,Complete urine analysis,300,Pathology,false,Urine,2 hours
+LT015,Stool Routine,Stool examination for parasites and infections,250,Pathology,false,Stool,4 hours

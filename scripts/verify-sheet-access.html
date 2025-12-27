@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Google Sheet Data Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+        }
+
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+
+        .step {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔍 Google Sheet Data Verification</h1>
+
+        <div class="section info">
+            <h3>📋 Your Google Sheet</h3>
+            <p><strong>URL:</strong> <a
+                    href="https://docs.google.com/spreadsheets/d/13RSnLOO9hQ2HJQRgt8ijCzSdwMncBVs3J7ua73wYOhI/edit"
+                    target="_blank">Open Google Sheet</a></p>
+            <p><strong>Sheet ID:</strong> 13RSnLOO9hQ2HJQRgt8ijCzSdwMncBVs3J7ua73wYOhI</p>
+        </div>
+
+        <div class="section">
+            <h3>🧪 Test Sheet Access</h3>
+            <p>Click the buttons below to test if your Google Sheet is accessible and contains the right data:</p>
+
+            <button onclick="testHospitals()">Test Hospitals Data</button>
+            <button onclick="testDoctors()">Test Doctors Data</button>
+            <button onclick="testBloodBank()">Test Blood Bank Data</button>
+            <button onclick="testLabTests()">Test Lab Tests Data</button>
+
+            <div id="results"></div>
+        </div>
+
+        <div class="section">
+            <h3>✅ Setup Checklist</h3>
+            <div class="step">
+                <strong>Step 1:</strong> Open your <a
+                    href="https://docs.google.com/spreadsheets/d/13RSnLOO9hQ2HJQRgt8ijCzSdwMncBVs3J7ua73wYOhI/edit"
+                    target="_blank">Google Sheet</a>
+            </div>
+            <div class="step">
+                <strong>Step 2:</strong> Create these tabs: <code>Hospitals</code>, <code>Doctors</code>,
+                <code>BloodBank</code>, <code>LabTests</code>
+            </div>
+            <div class="step">
+                <strong>Step 3:</strong> Copy data from CSV files in <code>data-templates/</code> folder
+            </div>
+            <div class="step">
+                <strong>Step 4:</strong> Make sheet public: Share → "Anyone with the link" → "Viewer"
+            </div>
+            <div class="step">
+                <strong>Step 5:</strong> Restart your development server: <code>npm run dev</code>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>📊 Expected Data Format</h3>
+            <h4>Hospitals Tab (A1:N2):</h4>
+            <pre>hospital_id,name,tier,category,lat,lng,address,phone,email,website,bed_capacity,available_beds,emergency_beds,specialties
+H001,Apollo Hospital Delhi,Premium,Hospital,28.5355,77.2910,"Sarita Vihar Delhi",+91-11-26925858,info@apollodelhi.com,https://www.apollohospitals.com,750,120,50,"Cardiology,Neurology"</pre>
+        </div>
+    </div>
+
+    <script>
+        const SHEET_ID = '13RSnLOO9hQ2HJQRgt8ijCzSdwMncBVs3J7ua73wYOhI';
+
+        function showResult(title, success, message, data = null) {
+            const results = document.getElementById('results');
+            const className = success ? 'success' : 'error';
+            const icon = success ? '✅' : '❌';
+
+            let html = `
+                <div class="section ${className}">
+                    <h4>${icon} ${title}</h4>
+                    <p>${message}</p>
+            `;
+
+            if (data) {
+                html += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            }
+
+            html += '</div>';
+            results.innerHTML = html;
+        }
+
+        async function testSheet(tabName, displayName) {
+            try {
+                showResult(displayName, false, 'Testing... Please wait.');
+
+                // Try to fetch from Google Sheets CSV export
+                const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
+
+                // Since we can't directly access due to CORS, show instructions
+                showResult(displayName, false, `
+                    Cannot test directly due to browser security. Please manually verify:
+                    <br><br>
+                    1. Open your Google Sheet
+                    <br>
+                    2. Check if "${tabName}" tab exists
+                    <br>
+                    3. Verify it has data starting from row 2
+                    <br>
+                    4. Make sure sheet is public (Share → Anyone with link → Viewer)
+                    <br><br>
+                    <strong>CSV Export URL:</strong> <a href="${csvUrl}" target="_blank">Test CSV Export</a>
+                `);
+
+            } catch (error) {
+                showResult(displayName, false, `Error: ${error.message}`);
+            }
+        }
+
+        function testHospitals() { testSheet('Hospitals', 'Hospitals Data'); }
+        function testDoctors() { testSheet('Doctors', 'Doctors Data'); }
+        function testBloodBank() { testSheet('BloodBank', 'Blood Bank Data'); }
+        function testLabTests() { testSheet('LabTests', 'Lab Tests Data'); }
+    </script>
+</body>
+
+</html>

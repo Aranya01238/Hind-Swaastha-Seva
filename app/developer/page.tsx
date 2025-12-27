@@ -43,12 +43,12 @@ export default function DeveloperPortal() {
         {/* Developer Dashboard Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {[
-            { icon: BookOpen, title: "API Documentation", desc: "Complete API reference and guides" },
-            { icon: Activity, title: "System Monitoring", desc: "Real-time system health and metrics" },
-            { icon: Bug, title: "Debug Tools", desc: "Debugging utilities and error tracking" },
-            { icon: Zap, title: "Integration Guides", desc: "Step-by-step integration tutorials" },
-            { icon: Database, title: "Database Tools", desc: "Database management and queries" },
-            { icon: Shield, title: "Security Center", desc: "Security settings and audit logs" }
+            { icon: BookOpen, title: "API Documentation", desc: "Complete API reference and guides", href: "#" },
+            { icon: Activity, title: "System Monitoring", desc: "Real-time system health and metrics", href: "#" },
+            { icon: Bug, title: "Debug Tools", desc: "Debugging utilities and error tracking", href: "#" },
+            { icon: Zap, title: "Integration Guides", desc: "Step-by-step integration tutorials", href: "#" },
+            { icon: Database, title: "Database Tools", desc: "Database management and queries", href: "#" },
+            { icon: Shield, title: "Auth0 Test", desc: "Test Auth0 authentication integration", href: "/auth-test" }
           ].map((item, index) => (
             <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
               <div className="flex items-center gap-4 mb-4">
@@ -58,9 +58,17 @@ export default function DeveloperPortal() {
                 <h3 className="font-bold text-slate-900">{item.title}</h3>
               </div>
               <p className="text-slate-600 text-sm">{item.desc}</p>
-              <Button className="w-full mt-4 bg-orange-600 hover:bg-orange-700">
-                Access {item.title}
-              </Button>
+              {item.href === "#" ? (
+                <Button className="w-full mt-4 bg-orange-600 hover:bg-orange-700">
+                  Access {item.title}
+                </Button>
+              ) : (
+                <Link href={item.href}>
+                  <Button className="w-full mt-4 bg-orange-600 hover:bg-orange-700">
+                    Access {item.title}
+                  </Button>
+                </Link>
+              )}
             </Card>
           ))}
         </div>

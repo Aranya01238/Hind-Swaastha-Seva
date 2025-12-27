@@ -10,13 +10,14 @@ export const SHEETS_WRITE_URL = process.env.SHEETS_WRITE_URL
 export const TAB_NAMES = {
   Hospitals: "Hospitals",
   Doctors: "Doctors",
-  Users: "Users", // Add this line for the new Users tab
+  Users: "Users",
   Appointments: "Appointments",
+  LabReports: "LabReports",
   Payments: "Payments",
   BloodBank: "BloodBank",
   Staff: "Staff",
   Labs: "LabTests",
-  EmergencyBeds: "EmergencyBeds" // <-- alias key "Labs" maps to the real Google tab name "LabTests"
+  EmergencyBeds: "EmergencyBeds"
 } as const
 
 export function normalizeSheetId(input: string) {

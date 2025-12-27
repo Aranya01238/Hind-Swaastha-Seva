@@ -1,0 +1,17 @@
+blood_bank_id,name,blood_type,quantity,location,contact_phone,contact_email,last_updated
+BB001,Red Cross Blood Bank Delhi,A+,45,Connaught Place New Delhi,+91-11-23417070,delhi@redcross.org.in,2025-12-28
+BB002,Red Cross Blood Bank Delhi,A-,12,Connaught Place New Delhi,+91-11-23417070,delhi@redcross.org.in,2025-12-28
+BB003,Red Cross Blood Bank Delhi,B+,38,Connaught Place New Delhi,+91-11-23417070,delhi@redcross.org.in,2025-12-28
+BB004,Red Cross Blood Bank Delhi,B-,8,Connaught Place New Delhi,+91-11-23417070,delhi@redcross.org.in,2025-12-28
+BB005,Red Cross Blood Bank Delhi,AB+,15,Connaught Place New Delhi,+91-11-23417070,delhi@redcross.org.in,2025-12-28
+BB006,Red Cross Blood Bank Delhi,AB-,5,Connaught Place New Delhi,+91-11-23417070,delhi@redcross.org.in,2025-12-28
+BB007,Red Cross Blood Bank Delhi,O+,52,Connaught Place New Delhi,+91-11-23417070,delhi@redcross.org.in,2025-12-28
+BB008,Red Cross Blood Bank Delhi,O-,18,Connaught Place New Delhi,+91-11-23417070,delhi@redcross.org.in,2025-12-28
+BB009,AIIMS Blood Bank,A+,78,AIIMS New Delhi,+91-11-26588663,bloodbank@aiims.ac.in,2025-12-28
+BB010,AIIMS Blood Bank,A-,22,AIIMS New Delhi,+91-11-26588663,bloodbank@aiims.ac.in,2025-12-28
+BB011,AIIMS Blood Bank,B+,65,AIIMS New Delhi,+91-11-26588663,bloodbank@aiims.ac.in,2025-12-28
+BB012,AIIMS Blood Bank,B-,15,AIIMS New Delhi,+91-11-26588663,bloodbank@aiims.ac.in,2025-12-28
+BB013,AIIMS Blood Bank,AB+,28,AIIMS New Delhi,+91-11-26588663,bloodbank@aiims.ac.in,2025-12-28
+BB014,AIIMS Blood Bank,AB-,8,AIIMS New Delhi,+91-11-26588663,bloodbank@aiims.ac.in,2025-12-28
+BB015,AIIMS Blood Bank,O+,95,AIIMS New Delhi,+91-11-26588663,bloodbank@aiims.ac.in,2025-12-28
+BB016,AIIMS Blood Bank,O-,32,AIIMS New Delhi,+91-11-26588663,bloodbank@aiims.ac.in,2025-12-28

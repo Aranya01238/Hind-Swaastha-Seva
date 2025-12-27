@@ -125,16 +125,29 @@ export default function PortalsPage() {
                   </div>
 
                   {/* Access Button */}
-                  <Link href={portal.href}>
-                    <Button 
-                      className={`w-full ${portal.color} ${portal.hoverColor} text-white font-bold py-4 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1`}
-                    >
-                      <span className="flex items-center justify-center gap-2">
-                        Access {portal.title}
-                        <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                      </span>
-                    </Button>
-                  </Link>
+                  {portal.id === 'user' ? (
+                    <Link href="/login">
+                      <Button 
+                        className={`w-full ${portal.color} ${portal.hoverColor} text-white font-bold py-4 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1`}
+                      >
+                        <span className="flex items-center justify-center gap-2">
+                          Login / Sign Up
+                          <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                        </span>
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Link href={portal.href}>
+                      <Button 
+                        className={`w-full ${portal.color} ${portal.hoverColor} text-white font-bold py-4 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1`}
+                      >
+                        <span className="flex items-center justify-center gap-2">
+                          Access {portal.title}
+                          <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                        </span>
+                      </Button>
+                    </Link>
+                  )}
                 </div>
 
                 {/* Hover Effect Overlay */}

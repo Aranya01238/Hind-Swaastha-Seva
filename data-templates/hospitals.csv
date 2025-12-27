@@ -1,0 +1,11 @@
+hospital_id,name,tier,category,lat,lng,address,phone,email,website,bed_capacity,available_beds,emergency_beds,specialties
+H001,Apollo Hospital Delhi,Premium,Hospital,28.5355,77.2910,"Sarita Vihar Delhi Mathura Road New Delhi 110076",+91-11-26925858,info@apollodelhi.com,https://www.apollohospitals.com,750,120,50,"Cardiology,Neurology,Oncology,Orthopedics"
+H002,AIIMS New Delhi,Government,Hospital,28.5672,77.2100,"Ansari Nagar New Delhi 110029",+91-11-26588500,director@aiims.ac.in,https://www.aiims.edu,2478,450,100,"All Specialties,Emergency Medicine,Trauma Care"
+H003,Fortis Hospital Gurgaon,Premium,Hospital,28.4595,77.0266,"Sector 44 Opposite HUDA City Centre Gurgaon 122002",+91-124-4962200,info@fortishealthcare.com,https://www.fortishealthcare.com,355,85,25,"Cardiology,Neurosurgery,Gastroenterology"
+H004,Max Super Speciality Hospital,Premium,Hospital,28.5245,77.1855,"1 Press Enclave Road Saket New Delhi 110017",+91-11-26515050,info@maxhealthcare.com,https://www.maxhealthcare.in,500,95,30,"Oncology,Cardiac Sciences,Neurosciences"
+H005,Medanta The Medicity,Premium,Hospital,28.4089,76.9734,"Sector 38 Gurgaon Haryana 122001",+91-124-4141414,info@medanta.org,https://www.medanta.org,1250,200,75,"Multi Organ Transplant,Robotic Surgery,Cancer Care"
+H006,BLK Super Speciality Hospital,Premium,Hospital,28.6692,77.2265,"Pusa Road New Delhi 110005",+91-11-30403040,info@blkhospital.com,https://www.blkhospital.com,650,110,40,"Liver Transplant,Kidney Transplant,Heart Surgery"
+H007,Gangaram Hospital,Premium,Hospital,28.6358,77.2244,"Rajinder Nagar New Delhi 110060",+91-11-25750000,info@sgrh.com,https://www.sgrh.com,675,125,45,"Nephrology,Gastroenterology,Pulmonology"
+H008,Safdarjung Hospital,Government,Hospital,28.5738,77.2088,"Ring Road New Delhi 110029",+91-11-26165060,director@safdarjung.nic.in,https://www.safdarjung.nic.in,1500,300,80,"General Medicine,Surgery,Pediatrics"
+H009,Ram Manohar Lohia Hospital,Government,Hospital,28.6264,77.2176,"Baba Kharak Singh Marg New Delhi 110001",+91-11-23404040,director@rmlh.nic.in,https://www.rmlh.nic.in,1400,280,70,"Emergency Medicine,Trauma Care,General Surgery"
+H010,Indraprastha Apollo Hospital,Premium,Hospital,28.5355,77.2910,"Sarita Vihar New Delhi 110076",+91-11-71791090,info@indraprasthaapollo.com,https://www.indraprasthaapollo.com,710,135,50,"Cardiothoracic Surgery,Neurology,Oncology"

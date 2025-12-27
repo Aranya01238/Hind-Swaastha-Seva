@@ -16,6 +16,8 @@ import {
   List,
   UserCog,
   Users,
+  User,
+  LogOut,
 } from "lucide-react";
 import { useLanguage } from "@/components/i18n/language-context";
 import { LanguageSelect } from "@/components/language-select";
@@ -29,8 +31,19 @@ import {
   DrawerClose,
 } from "@/components/ui/drawer";
 
+// Safe Auth0 hook
+function useAuth0Safe() {
+  try {
+    const { useUser } = require('@auth0/nextjs-auth0/client');
+    return useUser();
+  } catch (error) {
+    return { user: null, error: null, isLoading: false };
+  }
+}
+
 export function SiteHeader() {
   const { t } = useLanguage();
+  const { user } = useAuth0Safe();
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [isClient, setIsClient] = React.useState(false);
   const pathname = usePathname();
@@ -152,7 +165,46 @@ export function SiteHeader() {
 
         {/* --- Right Actions --- */}
         <div className="flex items-center gap-2">
-          {/* Staff Login (Desktop Only) */}
+          {/* User Menu (when authenticated) */}
+          {user && (
+            <div className="hidden sm:flex items-center gap-2">
+              <Link href="/profile">
+                <Button variant="ghost" size="sm" className="gap-2">
+                  {user.picture ? (
+                    <img 
+                      src={user.picture} 
+                      alt={user.name || 'User'} 
+                      className="w-5 h-5 rounded-full"
+                    />
+                  ) : (
+                    <User size={16} />
+                  )}
+                  <span className="hidden md:inline">{user.name?.split(' ')[0] || 'Profile'}</span>
+                </Button>
+              </Link>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => window.location.href = '/api/auth/logout?returnTo=' + encodeURIComponent(window.location.origin + '/portals')}
+                className="gap-2"
+              >
+                <LogOut size={16} />
+                <span className="hidden md:inline">Logout</span>
+              </Button>
+            </div>
+          )}
+
+          {/* Login Button (when not authenticated) */}
+          {!user && (
+            <div className="hidden sm:flex">
+              <Link href="/login">
+                <Button variant="outline" size="sm" className="gap-2">
+                  <User size={16} />
+                  Login
+                </Button>
+              </Link>
+            </div>
+          )}
 
           <div className="hidden sm:flex items-center gap-1">
             <LanguageSelect />
