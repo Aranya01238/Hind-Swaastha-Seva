@@ -1,25 +1,6 @@
 {
     "buildCommand": "npm run build",
-    "outputDirectory": ".next",
     "framework": "nextjs",
-    "installCommand": "npm install",
-    "devCommand": "npm run dev",
-    "env": {
-        "NEXT_PUBLIC_ELEVENLABS_API_KEY": "@elevenlabs_api_key",
-        "NEXT_PUBLIC_ELEVENLABS_VOICE_ID": "@elevenlabs_voice_id",
-        "GEMINI_API_KEY": "@gemini_api_key",
-        "GEMINI_MODEL": "@gemini_model",
-        "ENABLE_AI": "@enable_ai",
-        "NEXT_PUBLIC_SUPABASE_URL": "@supabase_url",
-        "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase_anon_key",
-        "SHEETS_ID": "@sheets_id",
-        "SHEETS_WRITE_URL": "@sheets_write_url",
-        "GOOGLE_CLIENT_EMAIL": "@google_client_email",
-        "GOOGLE_PRIVATE_KEY": "@google_private_key",
-        "GOOGLE_SHEET_ID": "@google_sheet_id",
-        "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY": "@stripe_publishable_key",
-        "STRIPE_SECRET_KEY": "@stripe_secret_key"
-    },
     "functions": {
         "app/api/**/*.ts": {
             "maxDuration": 30
