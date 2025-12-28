@@ -1,67 +1,58 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { cn } from "@/lib/utils"
 
 export function PageLoader() {
   const [visible, setVisible] = useState(true)
-  const [showECG, setShowECG] = useState(true)
+  const [isFlying, setIsFlying] = useState(false)
+  
   const containerRef = useRef<HTMLDivElement | null>(null)
-  const logoRef = useRef<HTMLDivElement | null>(null)
-  const textRef = useRef<HTMLDivElement | null>(null)
+  const logoGroupRef = useRef<HTMLDivElement | null>(null)
+  const uiElementsRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    // 1. Lock Body Scroll
     document.body.style.overflow = "hidden"
 
-    // 2. Timeline Sequence
     const sequence = async () => {
-      // Allow the heartbeat/ECG animation to play for a moment (1.2s)
-      await new Promise((r) => setTimeout(r, 1200))
+      // 1. Initial dwell time to appreciate the heartbeat
+      await new Promise((r) => setTimeout(r, 1600))
 
-      // Stop showing the ECG line just before we fly
-      setShowECG(false)
-
-      // Find the target in your Navbar
       const target = document.getElementById("site-logo")
-      const logoGroup = logoRef.current
-      const text = textRef.current
+      const logoGroup = logoGroupRef.current
+      const uiElements = uiElementsRef.current
 
-      // Fallback: If elements are missing, just fade out gracefully
-      if (!logoGroup || !target) {
-        if (containerRef.current) {
-          containerRef.current.style.opacity = "0"
-          containerRef.current.style.transition = "opacity 0.5s ease"
-        }
-        setTimeout(() => cleanup(), 500)
+      if (!logoGroup || !target || !containerRef.current) {
+        cleanup()
         return
       }
 
-      // Calculate the Delta (Distance to fly)
+      // 2. Start Flight
+      setIsFlying(true)
+      
       const targetRect = target.getBoundingClientRect()
       const startRect = logoGroup.getBoundingClientRect()
 
-      const dx = targetRect.left + targetRect.width / 2 - (startRect.left + startRect.width / 2)
-      const dy = targetRect.top + targetRect.height / 2 - (startRect.top + startRect.height / 2)
+      // Calculate center-to-center delta
+      const dx = (targetRect.left + targetRect.width / 2) - (startRect.left + startRect.width / 2)
+      const dy = (targetRect.top + targetRect.height / 2) - (startRect.top + startRect.height / 2)
 
-      // Apply the "Fly" Animation
-      // Using a slightly elastic bezier for a premium feel
-      logoGroup.style.transition = "transform 800ms cubic-bezier(0.34, 1.56, 0.64, 1)" 
-      logoGroup.style.transform = `translate(${dx}px, ${dy}px) scale(0.45)` // Adjusted scale to match typical navbar logo size
-
-      // Fade out the text and background
-      if (text) {
-        text.style.transition = "opacity 300ms ease, transform 300ms ease"
-        text.style.opacity = "0"
-        text.style.transform = "translateY(10px)"
-      }
+      // 3. Execute Premium Animation
+      // We use a complex cubic-bezier for a "snap-into-place" feel
+      logoGroup.style.transition = "all 900ms cubic-bezier(0.16, 1, 0.3, 1)"
+      logoGroup.style.transform = `translate(${dx}px, ${dy}px) scale(0.3)`
       
-      if (containerRef.current) {
-        // Keep container visible but clear background so we see the logo fly over the site
-        containerRef.current.style.backgroundColor = "transparent"
-        containerRef.current.style.backdropFilter = "none"
-        // Wait for fly animation to finish
-        setTimeout(() => cleanup(), 800)
+      if (uiElements) {
+        uiElements.style.transition = "all 400ms ease"
+        uiElements.style.opacity = "0"
+        uiElements.style.transform = "scale(0.9) translateY(20px)"
       }
+
+      containerRef.current.style.transition = "background-color 600ms ease, backdrop-filter 600ms ease"
+      containerRef.current.style.backgroundColor = "transparent"
+      containerRef.current.style.backdropFilter = "blur(0px)"
+
+      setTimeout(() => cleanup(), 900)
     }
 
     sequence()
@@ -71,9 +62,7 @@ export function PageLoader() {
       document.body.style.overflow = "unset"
     }
 
-    return () => {
-      document.body.style.overflow = "unset"
-    }
+    return () => { document.body.style.overflow = "unset" }
   }, [])
 
   if (!visible) return null
@@ -81,54 +70,82 @@ export function PageLoader() {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white/80 backdrop-blur-md transition-colors duration-500"
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950"
     >
-      <div className="relative flex flex-col items-center justify-center">
-        
-        {/* The Flying Group (Logo + Wrapper) */}
-        <div ref={logoRef} className="relative z-20 flex flex-col items-center justify-center">
-          
-          {/* Glowing Backlight */}
-          <div className="absolute inset-0 bg-red-500/20 blur-3xl rounded-full animate-pulse-slow" />
+      {/* Dynamic Mesh Gradient Background - adds premium depth */}
+      <div className={cn(
+        "absolute inset-0 transition-opacity duration-1000",
+        isFlying ? "opacity-0" : "opacity-100"
+      )}>
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-400/10 blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-red-400/10 blur-[120px]" />
+      </div>
 
-          {/* Logo Image */}
-          <div className="relative size-24 md:size-32 drop-shadow-2xl">
+      <div className="relative flex flex-col items-center">
+        {/* --- The Flying Group --- */}
+        <div ref={logoGroupRef} className="relative z-20 group">
+          {/* Enhanced Aura Glow */}
+          <div className={cn(
+            "absolute inset-[-20px] rounded-full bg-gradient-to-tr from-[var(--brand-primary)] to-blue-500 opacity-20 blur-2xl transition-all duration-700",
+            isFlying ? "scale-50 opacity-0" : "animate-pulse"
+          )} />
+          
+          <div className="relative size-32 md:size-40 select-none">
             <img
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-D57HLyHhfadPJg6ab9axgzG1dJPXKK.png"
               alt="HSS Logo"
-              className="size-full object-contain animate-heartbeat"
+              className={cn(
+                "size-full object-contain drop-shadow-[0_0_25px_rgba(var(--brand-primary-rgb),0.3)]",
+                !isFlying && "animate-[heartbeat_1.5s_ease-in-out_infinite]"
+              )}
             />
           </div>
         </div>
 
-        {/* ECG Line Animation (Disappears before flight) */}
-        <div 
-          className={`relative h-16 w-64 md:w-80 mt-4 overflow-hidden transition-opacity duration-300 ${showECG ? 'opacity-100' : 'opacity-0'}`}
-        >
-          <svg
-            viewBox="0 0 500 100"
-            className="absolute left-0 top-0 h-full w-full stroke-[var(--brand-primary)] stroke-[3px] fill-none"
-          >
-            {/* The ECG Path */}
-            <path
-              d="M0 50 H100 L120 20 L140 80 L160 50 H200 L220 20 L240 80 L260 50 H500"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="animate-draw-ecg"
-            />
-          </svg>
-          {/* Fading masks for the line ends */}
-          <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-transparent to-white/80" />
-        </div>
+        {/* --- UI Elements (These fade out) --- */}
+        <div ref={uiElementsRef} className="flex flex-col items-center mt-12 space-y-6">
+          <div className="flex flex-col items-center">
+            <h1 className="text-3xl font-black tracking-[0.3em] text-[var(--brand-primary)] drop-shadow-sm">
+              HSS
+            </h1>
+            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-muted-foreground/60 mt-2">
+              Health Service Systems
+            </p>
+          </div>
 
-        {/* Text Label */}
-        <div 
-          ref={textRef} 
-          className="absolute -bottom-12 text-2xl font-bold tracking-widest text-[var(--brand-primary)]"
-        >
-          HSS
+          {/* Cinematic ECG Line */}
+          <div className="relative h-12 w-48 overflow-hidden">
+            <svg
+              viewBox="0 0 200 60"
+              className="absolute inset-0 h-full w-full stroke-[var(--brand-primary)] stroke-[2px] fill-none"
+            >
+              <path
+                d="M0 30 L60 30 L70 10 L80 50 L90 30 L110 30 L120 15 L130 45 L140 30 L200 30"
+                strokeDasharray="400"
+                strokeDashoffset="400"
+                strokeLinecap="round"
+                className="animate-[draw-ecg_2s_ease-in-out_infinite]"
+              />
+            </svg>
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-50 via-transparent to-slate-50 dark:from-slate-950 dark:to-slate-950" />
+          </div>
         </div>
       </div>
+
+      <style jsx global>{`
+        @keyframes heartbeat {
+          0%, 100% { transform: scale(1); filter: brightness(1); }
+          15% { transform: scale(1.12); filter: brightness(1.1); }
+          30% { transform: scale(1); filter: brightness(1); }
+          45% { transform: scale(1.08); filter: brightness(1.05); }
+        }
+        @keyframes draw-ecg {
+          0% { stroke-dashoffset: 400; opacity: 0; }
+          20% { opacity: 1; }
+          80% { opacity: 1; }
+          100% { stroke-dashoffset: 0; opacity: 0; }
+        }
+      `}</style>
     </div>
   )
 }

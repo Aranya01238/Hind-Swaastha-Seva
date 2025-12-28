@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import {
   Menu,
   Home,
-  MessageCircle, // Imported for the chat/doctor link
+  MessageCircle,
   Stethoscope,
   Microscope,
   BedDouble,
@@ -18,6 +18,7 @@ import {
   Users,
   User,
   LogOut,
+  ChevronRight,
 } from "lucide-react";
 import { useLanguage } from "@/components/i18n/language-context";
 import { LanguageSelect } from "@/components/language-select";
@@ -48,304 +49,174 @@ export function SiteHeader() {
   const [isClient, setIsClient] = React.useState(false);
   const pathname = usePathname();
 
-  // Handle client-side hydration
   React.useEffect(() => {
     setIsClient(true);
-  }, []);
-
-  // Handle scroll effect
-  React.useEffect(() => {
-    if (!isClient) return;
-    
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isClient]);
+  }, []);
 
-  // Helper for active link styles - only apply active styles after hydration
   const getNavLinkClass = (path: string) =>
     cn(
-      "gap-1.5 px-3 py-1 text-xs font-medium transition-all duration-200 rounded-full hover:-translate-y-0.5",
+      "relative flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-all duration-300 rounded-full",
       isClient && pathname === path
-        ? "bg-[var(--brand-primary)]/10 text-[var(--brand-primary)]"
-        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+        ? "text-[var(--brand-primary)] bg-[var(--brand-primary)]/[0.08] shadow-[inset_0_0_0_1px_rgba(var(--brand-primary-rgb),0.1)]"
+        : "text-muted-foreground hover:text-foreground hover:bg-gray-100/50"
     );
 
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out px-4 py-2",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out px-4",
         isClient && isScrolled
-          ? "bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100/50"
-          : "bg-transparent"
+          ? "py-3 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl border-b border-white/20 shadow-[0_2px_20px_-10px_rgba(0,0,0,0.1)]"
+          : "py-5 bg-transparent"
       )}
     >
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between">
+        
         {/* --- Logo Section --- */}
-        <Link
-          href="/"
-          className="flex items-center gap-2 group"
-          id="site-logo" // Critical for PageLoader flight path
-        >
-          <div className="relative size-8 md:size-9 overflow-hidden rounded-lg shadow-sm transition-transform duration-300 group-hover:scale-105">
+        <Link href="/" className="flex items-center gap-3 group shrink-0" id="site-logo">
+          <div className="relative size-10 overflow-hidden rounded-xl shadow-md transition-all duration-500 group-hover:shadow-[var(--brand-primary)]/20 group-hover:scale-105 group-hover:rotate-3">
             <img
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-D57HLyHhfadPJg6ab9axgzG1dJPXKK.png"
               alt="HSS Logo"
-              className="size-full object-cover animate-beat"
+              className="size-full object-cover"
             />
           </div>
-          <span className="hidden sm:block font-bold text-lg md:text-xl tracking-tight text-[var(--brand-primary)]">
-            {t("app_name") || "HSS"}
-          </span>
+          <div className="flex flex-col leading-tight">
+            <span className="hidden sm:block font-extrabold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[var(--brand-primary)] to-blue-600">
+              {t("app_name") || "HSS"}
+            </span>
+            <span className="hidden md:block text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground/60">
+              Health Services
+            </span>
+          </div>
         </Link>
 
         {/* --- Desktop Navigation --- */}
-        <nav className="hidden lg:flex items-center gap-1 bg-gray-50/50 p-1 rounded-full border border-gray-100/50 backdrop-blur-sm">
+        <nav className="hidden lg:flex items-center gap-0.5 bg-white/40 dark:bg-black/20 p-1.5 rounded-full border border-gray-200/50 dark:border-white/10 backdrop-blur-md shadow-sm">
           <Link href="/">
-            <Button variant="ghost" size="sm" className={getNavLinkClass("/")}>
-              <Home className="size-3.5" />
-              Home
+            <Button variant="ghost" className={getNavLinkClass("/")}>
+              <Home className="size-4" />
+              <span>Home</span>
             </Button>
           </Link>
-          {/* Added Doctor/Chat Link */}
+          
           <Link href="/chat">
-            <Button
-              variant="ghost"
-              size="sm"
-              className={getNavLinkClass("/chat")}
-            >
-              <MessageCircle className="size-3.5" />
-              {t("nav_doctor") || "AI Doctor"}
+            <Button variant="ghost" className={cn(getNavLinkClass("/chat"), "group/chat")}>
+              <MessageCircle className="size-4 text-emerald-500 group-hover/chat:animate-pulse" />
+              <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                {t("nav_doctor") || "AI Doctor"}
+              </span>
             </Button>
           </Link>
-          <div className="w-px h-4 bg-gray-200 mx-1" /> {/* Divider */}
-          <Link href="/doctors">
-            <Button
-              variant="ghost"
-              size="sm"
-              className={getNavLinkClass("/doctors")}
-            >
-              <Stethoscope className="size-3.5" />
-              Doctors
-            </Button>
-          </Link>
-          <Link href="/labs">
-            <Button
-              variant="ghost"
-              size="sm"
-              className={getNavLinkClass("/labs")}
-            >
-              <Microscope className="size-3.5" />
-              {t("nav_labs") || "Labs"}
-            </Button>
-          </Link>
-          <Link href="/beds">
-            <Button
-              variant="ghost"
-              size="sm"
-              className={getNavLinkClass("/beds")}
-            >
-              <BedDouble className="size-3.5" />
-              {t("nav_beds") || "Beds"}
-            </Button>
-          </Link>
-          <Link href="/blood">
-            <Button
-              variant="ghost"
-              size="sm"
-              className={getNavLinkClass("/blood")}
-            >
-              <Droplet className="size-3.5" />
-              {t("nav_blood") || "Blood"}
-            </Button>
-          </Link>
+
+          <div className="w-px h-5 bg-gray-200/60 dark:bg-white/10 mx-2" />
+
+          <Link href="/doctors"><Button variant="ghost" className={getNavLinkClass("/doctors")}><Stethoscope className="size-4 text-blue-500" /> Doctors</Button></Link>
+          <Link href="/labs"><Button variant="ghost" className={getNavLinkClass("/labs")}><Microscope className="size-4 text-purple-500" /> Labs</Button></Link>
+          <Link href="/beds"><Button variant="ghost" className={getNavLinkClass("/beds")}><BedDouble className="size-4 text-indigo-500" /> Beds</Button></Link>
+          <Link href="/blood"><Button variant="ghost" className={getNavLinkClass("/blood")}><Droplet className="size-4 text-red-500" /> Blood</Button></Link>
         </nav>
 
         {/* --- Right Actions --- */}
-        <div className="flex items-center gap-2">
-          {/* User Menu (when authenticated) */}
-          {user && (
-            <div className="hidden sm:flex items-center gap-2">
+        <div className="flex items-center gap-3">
+          {user ? (
+            <div className="flex items-center gap-2 bg-gray-100/50 dark:bg-white/5 p-1 rounded-full border border-gray-200/50">
               <Link href="/profile">
-                <Button variant="ghost" size="sm" className="gap-2">
+                <Button variant="ghost" size="sm" className="rounded-full pl-1 pr-3 gap-2 h-8 hover:bg-white dark:hover:bg-slate-900 transition-all">
                   {user.picture ? (
-                    <img 
-                      src={user.picture} 
-                      alt={user.name || 'User'} 
-                      className="w-5 h-5 rounded-full"
-                    />
+                    <img src={user.picture} alt="User" className="size-6 rounded-full ring-2 ring-[var(--brand-primary)]/20" />
                   ) : (
-                    <User size={16} />
+                    <div className="size-6 rounded-full bg-primary flex items-center justify-center text-white"><User size={12} /></div>
                   )}
-                  <span className="hidden md:inline">{user.name?.split(' ')[0] || 'Profile'}</span>
+                  <span className="hidden md:inline font-semibold text-xs">{user.name?.split(' ')[0]}</span>
                 </Button>
               </Link>
               <Button 
                 variant="ghost" 
-                size="sm"
+                size="icon"
                 onClick={() => window.location.href = '/api/auth/logout?returnTo=' + encodeURIComponent(window.location.origin + '/portals')}
-                className="gap-2"
+                className="size-8 rounded-full text-muted-foreground hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30"
               >
-                <LogOut size={16} />
-                <span className="hidden md:inline">Logout</span>
+                <LogOut size={14} />
               </Button>
             </div>
+          ) : (
+            <Link href="/login" className="hidden sm:block">
+              <Button variant="default" size="sm" className="rounded-full px-5 font-bold shadow-lg shadow-[var(--brand-primary)]/20 bg-[var(--brand-primary)] hover:brightness-110 transition-all">
+                Login
+              </Button>
+            </Link>
           )}
 
-          {/* Login Button (when not authenticated) */}
-          {!user && (
-            <div className="hidden sm:flex">
-              <Link href="/login">
-                <Button variant="outline" size="sm" className="gap-2">
-                  <User size={16} />
-                  Login
-                </Button>
-              </Link>
-            </div>
-          )}
-
-          <div className="hidden sm:flex items-center gap-1">
+          <div className="hidden sm:flex items-center gap-1.5 border-l border-gray-200 dark:border-white/10 ml-1 pl-3">
             <LanguageSelect />
             <ThemeToggle />
           </div>
 
-          {/* Mobile Menu Trigger */}
           <Drawer>
             <DrawerTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="lg:hidden shrink-0"
-              >
+              <Button variant="ghost" size="icon" className="lg:hidden rounded-xl bg-gray-100/50 dark:bg-white/5 border border-gray-200/50 size-10">
                 <Menu className="size-5" />
-                <span className="sr-only">Toggle menu</span>
               </Button>
             </DrawerTrigger>
-            <DrawerContent>
-              <div className="mx-auto w-full max-w-sm">
-                <DrawerHeader className="border-b pb-4">
-                  <div className="flex items-center justify-center gap-2">
-                    <img
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-D57HLyHhfadPJg6ab9axgzG1dJPXKK.png"
-                      alt="Logo"
-                      className="size-8 animate-beat"
-                    />
-                    <DrawerTitle className="text-[var(--brand-primary)] font-bold">
-                      Menu
-                    </DrawerTitle>
+            <DrawerContent className="rounded-t-[32px]">
+              <div className="mx-auto w-full max-w-md">
+                <DrawerHeader className="pt-6">
+                  <div className="flex flex-col items-center gap-3">
+                    <div className="p-3 bg-gray-50 dark:bg-white/5 rounded-2xl ring-1 ring-gray-200 dark:ring-white/10 shadow-sm">
+                      <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-D57HLyHhfadPJg6ab9axgzG1dJPXKK.png" alt="Logo" className="size-10" />
+                    </div>
+                    <DrawerTitle className="text-xl font-bold tracking-tight text-foreground">Navigation</DrawerTitle>
                   </div>
                 </DrawerHeader>
 
-                <div className="p-4 space-y-6">
-                  {/* Main Routes */}
-                  <div className="grid gap-2">
-                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider pl-2 mb-1">
-                      Services
-                    </p>
-
-                    {/* Added Chat Link to Mobile Menu */}
-                    <DrawerClose asChild>
-                      <Link href="/chat">
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start gap-3 text-base"
-                        >
-                          <MessageCircle className="size-4 text-green-600" />
-                          {t("nav_doctor") || "AI Doctor"}
-                        </Button>
-                      </Link>
-                    </DrawerClose>
-
-                    <DrawerClose asChild>
-                      <Link href="/doctors">
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start gap-3 text-base"
-                        >
-                          <Stethoscope className="size-4 text-[var(--brand-primary)]" />
-                          Doctors
-                        </Button>
-                      </Link>
-                    </DrawerClose>
-                    <DrawerClose asChild>
-                      <Link href="/labs">
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start gap-3 text-base"
-                        >
-                          <Microscope className="size-4 text-purple-500" />
-                          {t("nav_labs") || "Labs"}
-                        </Button>
-                      </Link>
-                    </DrawerClose>
-                    <DrawerClose asChild>
-                      <Link href="/beds">
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start gap-3 text-base"
-                        >
-                          <BedDouble className="size-4 text-blue-500" />
-                          {t("nav_beds") || "Beds"}
-                        </Button>
-                      </Link>
-                    </DrawerClose>
-                    <DrawerClose asChild>
-                      <Link href="/blood">
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start gap-3 text-base"
-                        >
-                          <Droplet className="size-4 text-red-500" />
-                          {t("nav_blood") || "Blood Bank"}
-                        </Button>
-                      </Link>
-                    </DrawerClose>
-                    <DrawerClose asChild>
-                      <Link href="/list-centre">
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start gap-3 text-base"
-                        >
-                          <List className="size-4 text-orange-500" />
-                          {t("nav_list") || "List Centre"}
-                        </Button>
-                      </Link>
-                    </DrawerClose>
+                <div className="p-6 space-y-8">
+                  <div className="grid grid-cols-2 gap-3">
+                    {[
+                      { href: "/chat", icon: MessageCircle, color: "text-emerald-500", label: "AI Doctor" },
+                      { href: "/doctors", icon: Stethoscope, color: "text-blue-500", label: "Doctors" },
+                      { href: "/labs", icon: Microscope, color: "text-purple-500", label: "Labs" },
+                      { href: "/beds", icon: BedDouble, color: "text-indigo-500", label: "Beds" },
+                      { href: "/blood", icon: Droplet, color: "text-red-500", label: "Blood" },
+                      { href: "/list-centre", icon: List, color: "text-orange-500", label: "Centers" },
+                    ].map((item) => (
+                      <DrawerClose key={item.href} asChild>
+                        <Link href={item.href}>
+                          <div className="flex flex-col items-start gap-2 p-4 rounded-2xl bg-gray-50 dark:bg-white/5 hover:bg-gray-100 transition-colors border border-gray-100 dark:border-white/5 group">
+                            <item.icon className={cn("size-5", item.color)} />
+                            <span className="font-semibold text-sm">{item.label}</span>
+                          </div>
+                        </Link>
+                      </DrawerClose>
+                    ))}
                   </div>
 
-                  {/* Staff Routes */}
-                  <div className="grid gap-2 border-t pt-4">
-                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider pl-2 mb-1">
-                      Staff Access
-                    </p>
-                    <DrawerClose asChild>
-                      <Link href="/supervisor/login">
-                        <Button
-                          variant="outline"
-                          className="w-full justify-start gap-2 h-9"
-                        >
-                          <UserCog className="size-4" />
-                          Supervisor Login
-                        </Button>
-                      </Link>
-                    </DrawerClose>
-                    <DrawerClose asChild>
-                      <Link href="/receptionist/login">
-                        <Button
-                          variant="outline"
-                          className="w-full justify-start gap-2 h-9"
-                        >
-                          <Users className="size-4" />
-                          Receptionist Login
-                        </Button>
-                      </Link>
-                    </DrawerClose>
+                  <div className="space-y-3">
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] ml-1">Staff Access</p>
+                    <div className="grid gap-2">
+                       <DrawerClose asChild>
+                        <Link href="/supervisor/login">
+                          <Button variant="outline" className="w-full justify-between rounded-xl h-12 px-4 border-dashed">
+                            <div className="flex items-center gap-3"><UserCog className="size-4" /> <span>Supervisor Login</span></div>
+                            <ChevronRight size={14} className="text-muted-foreground" />
+                          </Button>
+                        </Link>
+                      </DrawerClose>
+                      <DrawerClose asChild>
+                        <Link href="/receptionist/login">
+                          <Button variant="outline" className="w-full justify-between rounded-xl h-12 px-4 border-dashed">
+                            <div className="flex items-center gap-3"><Users className="size-4" /> <span>Receptionist Login</span></div>
+                            <ChevronRight size={14} className="text-muted-foreground" />
+                          </Button>
+                        </Link>
+                      </DrawerClose>
+                    </div>
                   </div>
 
-                  {/* Settings */}
-                  <div className="flex items-center justify-between pt-2">
+                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-white/5 rounded-2xl border border-gray-100 dark:border-white/5">
                     <LanguageSelect />
                     <ThemeToggle />
                   </div>
