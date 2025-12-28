@@ -121,8 +121,8 @@ export function NurseMaya() {
       
       await audioElement.play()
       
-    } catch (error) {
-      console.info('Using browser TTS fallback:', error.message)
+    } catch (error: unknown) {
+      console.info('Using browser TTS fallback:', (error as Error)?.message || 'Unknown error')
       
       // Always fall back to browser speech synthesis
       if (isClient && 'speechSynthesis' in window) {
@@ -206,8 +206,8 @@ export function NurseMaya() {
           
           speechSynthesis.speak(utterance)
           
-        } catch (fallbackError) {
-          console.error('Browser TTS also failed:', fallbackError)
+        } catch (fallbackError: unknown) {
+          console.error('Browser TTS also failed:', (fallbackError as Error)?.message || 'Unknown error')
           setIsSpeaking(false)
         }
       } else {
