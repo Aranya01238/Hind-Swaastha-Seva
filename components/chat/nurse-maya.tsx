@@ -741,7 +741,7 @@ export function NurseMaya() {
               className="min-h-[52px] bg-slate-50 border-slate-300 focus-visible:ring-blue-500 focus-visible:ring-offset-0 rounded-xl text-base px-4 py-3"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={handleKeyDown}
+              onKeyDown={handleKeyDown}s}
               disabled={loading}
             />
           </div>
